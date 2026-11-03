@@ -237,7 +237,25 @@ En los métodos de detección de outliers analizados, examina los resultados com
 - Los valores etiquetados como outliers (ordenados de menor a mayor).
 
 ```{r Solucion ejercicio 7, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
+num_sigma<-sum(outliers_petallength$Petal.Length_sigma)
+num_hampel<-sum(outliers_petallength$Petal.Length_hampel)
+num_boxplot<-sum(outliers_petallength$Petal.Length_boxplot)
+num_percentil<-sum(outliers_petallength$Petal.Length_percentil)
 
+num_sigma
+num_hampel
+num_boxplot
+num_percentil
+
+outliers_sigma<-outliers_petallength$Petal.Length[outliers_petallength$Petal.Length_sigma]
+outliers_hampel<-outliers_petallength$Petal.Length[outliers_petallength$Petal.Length_hampel]
+outliers_boxplot<-outliers_petallength$Petal.Length[outliers_petallength$Petal.Length_boxplot]
+outliers_percentil<-outliers_petallength$Petal.Length[outliers_petallength$Petal.Length_percentil]
+
+outliers_sigma
+outliers_hampel
+outliers_boxplot
+outliers_percentil
 ```
 
 ## Ejercicio 8: Representación gráfica
