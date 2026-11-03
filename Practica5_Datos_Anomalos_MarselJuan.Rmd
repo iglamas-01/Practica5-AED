@@ -123,7 +123,14 @@ head(iris_NA)
 - Emplea después la función `na.omit` para quedarnos solo con las filas con datos completos en un nuevo data frame `clean_iris`.
 
 ```{r Solucion ejercicio 3, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
+num_comp<-sum(complete.cases(iris_NA))
+pct_comp<-(num_comp/nrow(iris_NA))*100
 
+num_comp
+pct_comp
+
+clean_iris<-na.omit(iris_NA)
+head(clean_iris)
 ```
 
 # Detección de outliers univariante
