@@ -1,6 +1,7 @@
 ---
 title: "Práctica 5. Datos Anómalos"
 subtitle: "Análisis Exploratorio de Datos, Máster en Ciencia de Datos - UV"
+author: "Ignacio Lacruz Mascarós"
 output:
   html_document:
     echo: yes
@@ -73,10 +74,21 @@ Por lo general, no hay un convenio o una representación común para indicar un 
 Inspecciona visualmente los valores del conjunto de datos (`View`) y ordena de mayor a menor y de menor a mayor cada variable para descubrir las diferentes inconsistencias que presenta el conjunto `dirty_iris`. Comenta los valores que te llamen la atención.
 
 ```{r Solucion ejercicio 1, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
+library(tidyr)
+library(dplyr)
+
 View(dirty_iris)
+iris_ord_asc <- lapply(dirty_iris, function(x) sort(x, na.last=TRUE)) 
+iris_ord_desc <- lapply(dirty_iris, function(x) sort(x, decreasing = TRUE, na.last=TRUE))
 # Medidas con valores faltantes, longitudes negativas y cero
 
 ```
+
+Haciendo el View inicial ya podemos comprobar como el DataFrame presenta algunos valores no disponibles (NA) además de valores sin sentido. Estos últimos quedan en evidencia cuando ordenamos las variables.
+
+Encontramos, por ejemplo, una medida de la anchura del sépalo negativa (no tiene sentido que una distancia sea negativa), o una medida de la longitud de los pétalos igual a 0 (debería ser un NA, ya que implica que no se ha podido medir esa longitud).
+
+También podemos ver valores exageradamente grandes para las longitudes y anchuras de sépalos, y para la longitud del pétalo. Estos podrían indicar el uso de otras unidades o errores de medición. Por último encontramos un valor erróneo que indica que la longitud de un pétalo es infinita, cosa que no tiene sentido.
 
 ## Ejercicio 2: Valores especiales
 
