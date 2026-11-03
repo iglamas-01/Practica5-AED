@@ -224,7 +224,7 @@ deteccion_outliers <- list(
   percentil = ~ reglapercentil(.x)
 )
 
-outliers_petallength<-iris_NA %>% mutate(across(Petal.Length, deteccion_outliers, .names= "{.col}_{.fn}"))
+outliers_petallength<-iris_NA %>% mutate(across(Petal.Length, deteccion_outliers, .names= "{.col}_{.fn}")) %>% select(-Sepal.Length, -Sepal.Width, -Petal.Width, -Species) %>% pivot_longer(cols=2:5, names_to=c("variable",".value"), names_sep="_") %>% select(-variable)
 
 head(outliers_petallength)
 ```
@@ -267,7 +267,23 @@ Representa gráficamente los datos de `Petal.Length` (distribución de puntos en
 Nota: usa en `geom_point` con la opción `position='jitter'` para mejorar la legibilidad del gráfico.
 
 ```{r Solucion ejercicio 8, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
+library(ggplot2)
 
+datos_grafico <- outliers_petallength %>%
+  filter(!is.na(Petal.Length)) %>%
+  pivot_longer(cols = -Petal.Length, names_to = "regla", values_to = "es_outlier") %>%
+  mutate(
+    regla = factor(regla, levels = c("sigma", "hampel", "boxplot", "percentil")),
+    tipo  = ifelse(es_outlier, "Outlier", "Típico")
+  )
+
+ggplot(datos_grafico, aes(x = regla, y = Petal.Length, color = tipo)) +
+  geom_point(position = position_jitter(width = 0.25, height = 0, seed = 1),
+             alpha = 0.7, size = 2) +
+  scale_color_manual(values = c("Típico" = "#4C78A8", "Outlier" = "#E45756")) +
+  labs(x = "Regla de detección", y = "Petal.Length", color = NULL,
+       title = "Outliers de Petal.Length según cada regla") +
+  theme_minimal()
 ```
 
 # Imputación de datos
