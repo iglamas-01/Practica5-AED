@@ -74,9 +74,6 @@ Por lo general, no hay un convenio o una representación común para indicar un 
 Inspecciona visualmente los valores del conjunto de datos (`View`) y ordena de mayor a menor y de menor a mayor cada variable para descubrir las diferentes inconsistencias que presenta el conjunto `dirty_iris`. Comenta los valores que te llamen la atención.
 
 ```{r Solucion ejercicio 1, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
-library(tidyr)
-library(dplyr)
-
 View(dirty_iris)
 iris_ord_asc <- lapply(dirty_iris, function(x) sort(x, na.last=TRUE)) 
 iris_ord_desc <- lapply(dirty_iris, function(x) sort(x, decreasing = TRUE, na.last=TRUE))
@@ -107,8 +104,17 @@ Reemplaza, en todas las columnas numéricas del data frame `dirty_iris`, los val
 
 ```{r Solucion ejercicio 2, include=TRUE, echo=TRUE, eval=TRUE, results=TRUE}
 # DEBEMOS ELIMINAR TAMBIEN LOS VALROES IGUALES A CERO YA QUE SE TRATA DE LONGITUDES DE PARTES DE UNA FLOR. NO PUEDEN SER O
+library(tidyr)
+library(dplyr)
 
+iris_NA <- dirty_iris %>% mutate(
+    Sepal.Length = ifelse(is.finite(Sepal.Length) & Sepal.Length > 0, Sepal.Length, NA),
+    Sepal.Width  = ifelse(is.finite(Sepal.Width) & Sepal.Width > 0, Sepal.Width,NA),
+    Petal.Length = ifelse(is.finite(Petal.Length) & Petal.Length > 0, Petal.Length, NA),
+    Petal.Width  = ifelse(is.finite(Petal.Width)  & Petal.Width  > 0, Petal.Width,  NA))
 
+View(iris_NA)
+head(iris_NA)
 ```
 
 ## Ejercicio 3: Valores perdidos y observaciones completas
