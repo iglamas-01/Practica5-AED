@@ -258,6 +258,8 @@ outliers_boxplot
 outliers_percentil
 ```
 
+Podemos observar a partir de estos resultados como claramente los métodos son cada vez más estrictos. Es interesante notar como los criterios de hampel y boxplot nos dan el mismo número de outliers. Los valores más alejados de nuestra distribución son 63 y 23, detectados por todos los métodos. El método de percentiles es el único que elimina valores más pequeños.
+
 ## Ejercicio 8: Representación gráfica
 
 Representa gráficamente los datos de `Petal.Length` (distribución de puntos en el eje $y$) para todas las reglas de detección implementadas (repartidas en el eje $x$) mostrando los valores identificados como típicos y los identificados como outliers en diferente color. Usa la función `pivot_longer` para poder agrupar por reglas y colorear los outliers fácilmente.
