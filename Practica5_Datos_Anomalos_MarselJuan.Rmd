@@ -150,7 +150,25 @@ Empleado la función `summarise y across`, calcula la media, la desviación típ
 - Compara los resultados para los dos conjuntos en la variable `Petal.Length`.
 
 ```{r , include = TRUE}
+madm <- function(x) {
+  1.4826 * median(abs(x - median(x, na.rm = TRUE)), na.rm = TRUE)
+}
 
+estadisticos <- list(
+  media   = ~ mean(.x, na.rm = TRUE),
+  sd      = ~ sd(.x, na.rm = TRUE),
+  mediana = ~ median(.x, na.rm = TRUE),
+  madm    = ~ madm(.x),
+  iqr     = ~ IQR(.x, na.rm = TRUE)
+)
+
+sum_est_clean<-clean_iris %>% summarise(across(-Species, estadisticos, .names= "{.col}_{.fn}")) %>% pivot_longer(everything(), names_to  = c("variable", ".value"), names_sep = "_")
+
+sum_est_clean
+
+sum_est_dirty<-iris_NA %>% summarise(across(-Species, estadisticos, .names= "{.col}_{.fn}")) %>% pivot_longer(everything(), names_to  = c("variable", ".value"), names_sep = "_")
+
+sum_est_dirty
 ```
 
 ## Ejercicio 5: Métodos de detección de outliers
